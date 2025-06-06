@@ -10,6 +10,24 @@ from pathlib import Path
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 
+def read_novels(path=Path.cwd() / "texts" / "novels"):
+    """
+    1. Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
+    author, and year
+    2. sort the dataframe by the year column before returning it, resetting or ignoring the dataframe index.
+    """
+    pass
+
+def nltk_ttr(text):
+    """
+    Calculates the type-token ratio of a text. 
+    Text is tokenized using nltk.word_tokenize.
+    """
+    pass
+
+def flesch_kincaid():
+    pass
+
 def fk_level(text, d):
     """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
     Requires a dictionary of syllables per word.
@@ -36,14 +54,12 @@ def count_syl(word, d):
     """
     pass
 
-def read_novels(path=Path.cwd() / "texts" / "novels"):
-    """Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
-    author, and year"""
-    pass
 
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
-    """Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
-    the resulting  DataFrame to a pickle file"""
+    """
+    Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
+    the resulting  DataFrame to a pickle file
+    """
     pass
 
 def nltk_ttr(text):
