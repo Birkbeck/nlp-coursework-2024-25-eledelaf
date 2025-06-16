@@ -16,8 +16,18 @@ def read_novels(path=Path.cwd() / "novels"):
     author, and year
     2. sort the dataframe by the year column before returning it, resetting or ignoring the dataframe index.
     """
-    for novel in path:
-        print(novel.name)
+    l_d = [] # The list of dictionaries where i will put the data of each book, each novel will be a dict
+    for novel in path.glob("*.txt"):
+        name = novel.name # This a str looking like this: Sense_and_Sensibility-Austen-1811.txt
+        # From here we have to take the year, title and author
+        [title, author, year] = name.split("-")
+        year = int(year[:4])
+        # Open the txt  
+        with open(novel, encoding = "utf-8") as f:
+            text = f.read()
+        dic = {"text": text, "author": author, "title": title, "year": year}
+        l_d.append(dic)
+    # Once we have the list of dict, we have to create the data frame
 
 read_novels(path=Path.cwd() / "novels")
 
