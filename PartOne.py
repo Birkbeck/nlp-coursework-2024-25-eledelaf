@@ -2,41 +2,60 @@
 
 # Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
-import nltk
 import spacy
 from pathlib import Path
+import pandas as pd
 
+import nltk
+from nltk.tokenize import word_tokenize
+
+nltk.download("punkt")
+nltk.download("punkt_tab") 
+nltk.download("averaged_perceptron_tagger")
+nltk.download("cmudict")
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
-
 def read_novels(path=Path.cwd() / "novels"):
     """
     1. Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year
     2. sort the dataframe by the year column before returning it, resetting or ignoring the dataframe index.
     """
-    l_d = [] # The list of dictionaries where i will put the data of each book, each novel will be a dict
+    data = [] # The list of dictionaries where i will put the data of each book, each novel will be a dict
     for novel in path.glob("*.txt"):
         name = novel.name # This a str looking like this: Sense_and_Sensibility-Austen-1811.txt
         # From here we have to take the year, title and author
         [title, author, year] = name.split("-")
         year = int(year[:4])
-        # Open the txt  
+        # Open the txt
         with open(novel, encoding = "utf-8") as f:
             text = f.read()
         dic = {"text": text, "author": author, "title": title, "year": year}
-        l_d.append(dic)
+        data.append(dic)
     # Once we have the list of dict, we have to create the data frame
-
-read_novels(path=Path.cwd() / "novels")
+    df = pd.DataFrame.from_records(data)
+    df = df.sort_values("year")
+    df = df.reset_index()
+    return df
+df = read_novels(path=Path.cwd() / "novels")
+print(df)
 
 def nltk_ttr(text):
     """
     Calculates the type-token ratio of a text. 
     Text is tokenized using nltk.word_tokenize.
     """
-    pass
+    text = text.lower()
+    from nltk.tokenize import word_tokenize
+    import string
+
+    tokens = word_tokenize(text)  # pasamos a minúsculas
+    tokens = [t for t in tokens if t.isalpha()]  # eliminamos puntuación y números
+    types = set(tokens)
+    return len(types) / len(tokens) if tokens else 0
+
+#nltk_ttr(df.loc[0, "text"])
 
 def flesch_kincaid():
     pass
@@ -67,7 +86,6 @@ def count_syl(word, d):
     """
     pass
 
-
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """
     Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
@@ -85,7 +103,6 @@ def get_ttrs(df):
     for i, row in df.iterrows():
         results[row["title"]] = nltk_ttr(row["text"])
     return results
-
 
 def get_fks(df):
     """helper function to add fk scores to a dataframe"""
