@@ -49,13 +49,19 @@ def nltk_ttr(text):
     """
     text = text.lower()
     tokens = nltk.word_tokenize(text) 
-    tokens = [t for t in tokens if t.isalpha()]  
+    tokens = [t for t in tokens if t.isalpha()] # Take only the alfabetical tokens 
     types = set(tokens)
     return len(types) / len(tokens) if tokens else 0
 
 print(nltk_ttr(df.loc[0, "text"]))
 
 def flesch_kincaid():
+    """
+    This function should return a dictionary mapping the title of
+    each novel to the Flesch-Kincaid reading grade level score of the text. Use the
+    NLTK library for tokenization and the CMU pronouncing dictionary for esti-
+    mating syllable counts.
+    """
     pass
 
 def fk_level(text, d):
