@@ -8,11 +8,12 @@ import pandas as pd
 
 import nltk
 from nltk.tokenize import word_tokenize
+import string
 
-nltk.download("punkt")
-nltk.download("punkt_tab") 
-nltk.download("averaged_perceptron_tagger")
-nltk.download("cmudict")
+#nltk.download("punkt")
+#nltk.download("punkt_tab") 
+#nltk.download("averaged_perceptron_tagger")
+#nltk.download("cmudict")
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
@@ -39,7 +40,7 @@ def read_novels(path=Path.cwd() / "novels"):
     df = df.reset_index()
     return df
 df = read_novels(path=Path.cwd() / "novels")
-print(df)
+#print(df)
 
 def nltk_ttr(text):
     """
@@ -47,15 +48,12 @@ def nltk_ttr(text):
     Text is tokenized using nltk.word_tokenize.
     """
     text = text.lower()
-    from nltk.tokenize import word_tokenize
-    import string
-
-    tokens = word_tokenize(text)  # pasamos a minúsculas
-    tokens = [t for t in tokens if t.isalpha()]  # eliminamos puntuación y números
+    tokens = nltk.word_tokenize(text) 
+    tokens = [t for t in tokens if t.isalpha()]  
     types = set(tokens)
     return len(types) / len(tokens) if tokens else 0
 
-#nltk_ttr(df.loc[0, "text"])
+print(nltk_ttr(df.loc[0, "text"]))
 
 def flesch_kincaid():
     pass
