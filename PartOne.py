@@ -10,13 +10,16 @@ from pathlib import Path
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 
-def read_novels(path=Path.cwd() / "texts" / "novels"):
+def read_novels(path=Path.cwd() / "novels"):
     """
     1. Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year
     2. sort the dataframe by the year column before returning it, resetting or ignoring the dataframe index.
     """
-    pass
+    for novel in path:
+        print(novel.name)
+
+read_novels(path=Path.cwd() / "novels")
 
 def nltk_ttr(text):
     """
