@@ -1,1 +1,3 @@
-Answers to the text questions go here.
+When is the Flesch Kincaid score NOT a valid, robust or reliable estimator of text difficultu?
+Give two conditions.
+Answer:
