@@ -9,7 +9,9 @@ import pandas as pd
 import nltk
 from nltk.tokenize import word_tokenize
 import string
+from nltk.corpus import cmudict
 
+#nltk.download('cmudict')
 #nltk.download("punkt")
 #nltk.download("punkt_tab") 
 #nltk.download("averaged_perceptron_tagger")
@@ -40,7 +42,7 @@ def read_novels(path=Path.cwd() / "novels"):
     df = df.reset_index()
     return df
 df = read_novels(path=Path.cwd() / "novels")
-#print(df)
+# print(df)
 
 def nltk_ttr(text):
     """
@@ -53,16 +55,51 @@ def nltk_ttr(text):
     types = set(tokens)
     return len(types) / len(tokens) if tokens else 0
 
-print(nltk_ttr(df.loc[0, "text"]))
+# print(nltk_ttr(df.loc[0, "text"]))
 
-def flesch_kincaid():
+def flesch_kincaid(df):
     """
     This function should return a dictionary mapping the title of
     each novel to the Flesch-Kincaid reading grade level score of the text. Use the
     NLTK library for tokenization and the CMU pronouncing dictionary for esti-
     mating syllable counts.
     """
-    pass
+    d = {}
+    titles = list(df["title"])
+    for title in titles:
+        text = df[df["title"]== title]["text"].values[0]
+        text = text.lower()
+        # Number of words
+        tokens = nltk.word_tokenize(text) 
+        tokens = [t for t in tokens if t.isalpha()] # Take only the alfabetical tokens 
+        n_words = len(tokens)
+
+        # Number of sentences
+        sent = nltk.sent_tokenize(text)
+        n_sent = len(sent)
+
+        # Aproximation of sylabels
+        dict = cmudict.dict()
+        n_syl = 0
+        for token in tokens:
+            if token in dict:
+                phonemes = dict[token] #List of lists, posible phonemes
+                # I am going to pick the longest element of the list, i rather overestimate the difficulty
+                a = len(phonemes[0])
+                phonem = phonemes[0]
+                for p in phonemes:
+                    if len(p) > a:
+                        phonem = p
+                        a = len(p)
+                n_syl += len(phonem)
+            else:
+                n_syl += 1
+        print(n_words, n_sent, n_syl)
+
+        # Calculate Flesch-Kincaid
+
+ 
+print(flesch_kincaid(df))
 
 def fk_level(text, d):
     """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
