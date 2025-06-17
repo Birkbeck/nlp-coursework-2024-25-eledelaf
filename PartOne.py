@@ -94,12 +94,14 @@ def flesch_kincaid(df):
                 n_syl += len(phonem)
             else:
                 n_syl += 1
-        print(n_words, n_sent, n_syl)
-
+    
         # Calculate Flesch-Kincaid
+        FKGL = 0.39 *(n_words/n_sent)+ 11.8 *(n_syl/n_words)-15.59
 
+        d[title] = FKGL # Add to the dictionary
+    return d
  
-print(flesch_kincaid(df))
+#print(flesch_kincaid(df))
 
 def fk_level(text, d):
     """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
