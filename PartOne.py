@@ -42,7 +42,7 @@ def read_novels(path=Path.cwd() / "novels"):
     df = df.sort_values("year")
     df = df.reset_index()
     return df
-# df = read_novels(path=Path.cwd() / "novels")
+df = read_novels(path=Path.cwd() / "novels")
 # print(df)
 
 def nltk_ttr(text):
@@ -172,7 +172,7 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
         """
         return df
     
-# print(parse(df))
+df = parse(df)
 
 def most_common_objects(df):
     """
@@ -182,15 +182,11 @@ def most_common_objects(df):
     d = {}
     titles = list(df["title"])
     for title in titles:
-        text = df[df["title"]== title]["parse"].values[0]
-
+        parse = df[df["title"]== title]["parse"]
+        for token in parse:
+            pass
 
     pass
-
-
-
-
-
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
