@@ -10,6 +10,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 import string
 from nltk.corpus import cmudict
+import pickle 
 
 #nltk.download('cmudict')
 #nltk.download("punkt")
@@ -41,7 +42,7 @@ def read_novels(path=Path.cwd() / "novels"):
     df = df.sort_values("year")
     df = df.reset_index()
     return df
-df = read_novels(path=Path.cwd() / "novels")
+# df = read_novels(path=Path.cwd() / "novels")
 # print(df)
 
 def nltk_ttr(text):
