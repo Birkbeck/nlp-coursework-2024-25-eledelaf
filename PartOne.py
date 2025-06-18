@@ -134,7 +134,43 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
     the resulting  DataFrame to a pickle file
     """
-    pass
+    if Path("parsed_novels.pkl").exists():
+        """
+        iv. Load the dataframe from the pickle file and use it for the remainder of this
+        oursework part.
+        """
+        with open("parsed_novels.pkl", "rb") as f:
+            return pickle.load(f)
+    
+    else:
+        """
+        i. Use the spaCy nlp method to add a new column to the dataframe that
+        contains parsed and tokenized Doc objects for each text.
+        """
+        nlp.max_length = 2000000
+        parses = []
+        texts = list(df["text"])
+        for text in texts:
+            parse = nlp(text)
+            parses.append(parse)
+        df["Parse"] = parses
+
+        """
+        ii. Serialise the resulting dataframe (i.e., write it out to disk) using the pickle
+        format.
+        """
+        with open("parsed_novels.pkl", "wb") as f:
+            pickle.dump(df, f)
+
+        """
+        iii. Return the dataframe.
+        """
+        return df
+    
+# print(parse(df))
+
+
+
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""

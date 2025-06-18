@@ -1,3 +1,7 @@
 When is the Flesch Kincaid score NOT a valid, robust or reliable estimator of text difficultu?
 Give two conditions.
 Answer:
+The Flesch Kincaid is a score of readability that show how difficult a text in English is to understan .
+But it could fail:
+    1. When the text does not have a typical sentence structure like poetry 
+    2. Assuming that longer words and sentences is equal to more difficult text its not always true.
