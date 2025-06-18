@@ -135,12 +135,14 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
     the resulting  DataFrame to a pickle file
     """
-    if Path("parsed_novels.pkl").exists():
+    PATH = Path("/Users/elenadelafuente/Desktop/MASTER/2 trimestre"
+                "/Natural Lenguage Processing/parsed_novels.pkl")
+    if PATH.exists():
         """
         iv. Load the dataframe from the pickle file and use it for the remainder of this
         oursework part.
         """
-        with open("parsed_novels.pkl", "rb") as f:
+        with open(PATH, "rb") as f:
             return pickle.load(f)
     
     else:
@@ -154,13 +156,15 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
         for text in texts:
             parse = nlp(text)
             parses.append(parse)
-        df["Parse"] = parses
+        df["parse"] = parses
 
         """
         ii. Serialise the resulting dataframe (i.e., write it out to disk) using the pickle
         format.
         """
-        with open("parsed_novels.pkl", "wb") as f:
+        # I am saving it at my computer bc i had some problems with github 
+        # when i had the document in this file
+        with open(PATH, "wb") as f:
             pickle.dump(df, f)
 
         """
@@ -169,6 +173,23 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
         return df
     
 # print(parse(df))
+
+def most_common_objects(df):
+    """
+    The title of each novel and a list of the ten most common syntactic objects
+    overall in the text.
+    """
+    d = {}
+    titles = list(df["title"])
+    for title in titles:
+        text = df[df["title"]== title]["parse"].values[0]
+
+
+    pass
+
+
+
+
 
 
 def nltk_ttr(text):
