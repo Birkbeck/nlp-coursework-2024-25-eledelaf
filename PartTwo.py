@@ -34,3 +34,7 @@ characters long.
 """
 final_df = f_df.drop(f_df[f_df["speech"].str.len() >= 1000].index)
 
+"""
+Print the dimensions of the resulting dataframe using the shape method.
+"""
+print(final_df.shape)
