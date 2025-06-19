@@ -18,6 +18,13 @@ remove any rows where the value of the ‘party’ column is not one of the
 four most common party names
 """
 parties_4 = list(df['party'].value_counts()[:4].index)
-filtered_df = df[df['party'].isin(parties_4)]
-filtered_df = filtered_df.drop("speakername", axis=1)
-print(filtered_df.head())
+f_df = df[df['party'].isin(parties_4)]
+f_df = f_df.drop("speakername", axis=1)
+print(f_df.head())
+
+"""
+remove any rows where the value in the ‘speech_class’ column is not
+‘Speech’.
+"""
+f_df = f_df.drop(f_df[f_df["speech_class"] != "Speech"].index)
+
