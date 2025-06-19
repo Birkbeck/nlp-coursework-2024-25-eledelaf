@@ -46,6 +46,7 @@ parameters, except for omitting English stopwords and setting max_features to
 """
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
 vectorizer = TfidfVectorizer(stop_words = "english", max_features = 3000)
 
@@ -59,5 +60,15 @@ y = final_df["party"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=26, stratify=y)
 
+"""
+Train RandomForest (with n_estimators=300) and SVM with linear kernel 
+classifiers on the training set, and print the scikit-learn macro-average f1 score and
+classification report for each classifier on the test set. The label that you are
+trying to predict is the ‘party’ value.
+"""
+# Train RandomForest (with n_estimators=300)
+r_Forest = RandomForestClassifier(n_estimators=300)
+r_Forest.fit(X_train, y_train)
 
+# Train the SVM with linear kernel classifiers
 
