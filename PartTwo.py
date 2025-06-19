@@ -17,6 +17,7 @@ df = df.replace({"Labour (Co-op)": "Labour"})
 remove any rows where the value of the ‘party’ column is not one of the
 four most common party names
 """
-#print(df['party'].value_counts()[:4])
 parties_4 = list(df['party'].value_counts()[:4].index)
-print(parties_4)
+filtered_df = df[df['party'].isin(parties_4)]
+filtered_df = filtered_df.drop("speakername", axis=1)
+print(filtered_df.head())
