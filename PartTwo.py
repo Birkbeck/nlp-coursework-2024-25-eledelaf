@@ -28,3 +28,9 @@ remove any rows where the value in the ‘speech_class’ column is not
 """
 f_df = f_df.drop(f_df[f_df["speech_class"] != "Speech"].index)
 
+"""
+remove any rows where the text in the ‘speech’ column is less than 1000
+characters long.
+"""
+final_df = f_df.drop(f_df[f_df["speech"].str.len() >= 1000].index)
+
