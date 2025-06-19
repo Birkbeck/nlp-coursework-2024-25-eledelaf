@@ -184,9 +184,10 @@ def most_common_objects(df):
     for title in titles:
         parse = df[df["title"]== title]["parse"]
         for token in parse:
-            pass
-
+            print(token.text, token.dep_)
     pass
+
+most_common_objects(df)
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
