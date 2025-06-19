@@ -80,7 +80,10 @@ svm = SVC(kernel= 'linear')
 svm.fit(X_train, y_train)
 y_svm_predict = svm.predict(X_test)
 
-# Print the scikit-learn macro-average f1 score
-print(f1_score(y_test,y_rF_predict))
-print(f1_score(y_test,y_svm_predict))
+# Print the scikit-learn macro-average f1 score (NOT WORKING)
+print(f1_score(y_test,y_rF_predict, average = 'macro'))
+print(f1_score(y_test,y_svm_predict, average = 'macro'))
 
+# Classification report
+print(classification_report(y_test,y_rF_predict))
+print(classification_report(y_test,y_svm_predict))
