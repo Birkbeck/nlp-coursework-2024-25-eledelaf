@@ -38,3 +38,15 @@ final_df = f_df.drop(f_df[f_df["speech"].str.len() >= 1000].index)
 Print the dimensions of the resulting dataframe using the shape method.
 """
 print(final_df.shape)
+
+"""
+Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default
+parameters, except for omitting English stopwords and setting max_features to
+3000. Split the data into a train and test set, using stratified sampling, with a
+random seed of 26.
+"""
+from sklearn import TfidfVectorizer
+
+vectorizer = TfidfVectorizer(stop_words = {"english"}, max_features = 3000)
+
+
