@@ -49,4 +49,4 @@ from sklearn import TfidfVectorizer
 
 vectorizer = TfidfVectorizer(stop_words = {"english"}, max_features = 3000)
 
-
+X = vectorizer.fit_transform(list(df["speech"]))
