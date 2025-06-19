@@ -47,6 +47,8 @@ parameters, except for omitting English stopwords and setting max_features to
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+
 
 vectorizer = TfidfVectorizer(stop_words = "english", max_features = 3000)
 
@@ -71,4 +73,7 @@ r_Forest = RandomForestClassifier(n_estimators=300)
 r_Forest.fit(X_train, y_train)
 
 # Train the SVM with linear kernel classifiers
+svm = SVC(kernel= 'linear')
+svm.fit(X_train, y_train)
+
 
