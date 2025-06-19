@@ -42,11 +42,22 @@ print(final_df.shape)
 """
 Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default
 parameters, except for omitting English stopwords and setting max_features to
-3000. Split the data into a train and test set, using stratified sampling, with a
+3000.
+"""
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+
+vectorizer = TfidfVectorizer(stop_words = "english", max_features = 3000)
+
+X = vectorizer.fit_transform(final_df["speech"])
+"""
+Split the data into a train and test set, using stratified sampling, with a
 random seed of 26.
 """
-from sklearn import TfidfVectorizer
+# Since we are trying to predict the political party that said certain speech
+y = final_df["party"]
 
-vectorizer = TfidfVectorizer(stop_words = {"english"}, max_features = 3000)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=26, stratify=y)
 
-X = vectorizer.fit_transform(list(df["speech"]))
+
+
