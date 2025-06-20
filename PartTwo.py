@@ -32,7 +32,7 @@ f_df = f_df.drop(f_df[f_df["speech_class"] != "Speech"].index)
 remove any rows where the text in the ‘speech’ column is less than 1000
 characters long.
 """
-final_df = f_df.drop(f_df[f_df["speech"].str.len() >= 1000].index)
+final_df = f_df.drop(f_df[f_df["speech"].str.len() < 1000].index)
 
 """
 Print the dimensions of the resulting dataframe using the shape method.
@@ -85,7 +85,7 @@ print(f1_score(y_test,y_rF_predict, average = 'macro'))
 print(f1_score(y_test,y_svm_predict, average = 'macro'))
 
 # Classification report
-print(classification_report(y_test,y_rF_predict))
+print(classification_report(y_test,y_rF_predict)) # Esto esta dando error 
 print(classification_report(y_test,y_svm_predict))
 
 """
@@ -113,7 +113,7 @@ svm.fit(X_train, y_train)
 y_svm_predict = svm.predict(X_test)
 
 # Print the classification
-print(classification_report(y_test,y_rF_predict))
+print(classification_report(y_test,y_rF_predict)) # Esto también esta dando error 
 print(classification_report(y_test,y_svm_predict))
 
 """
