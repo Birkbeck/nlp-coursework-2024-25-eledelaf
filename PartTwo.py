@@ -18,7 +18,7 @@ remove any rows where the value of the ‘party’ column is not one of the
 four most common party names
 """
 parties_4 = list(df['party'].value_counts()[:4].index)
-dff = df[df['party'].isin(parties_4)]
+df = df[df['party'].isin(parties_4)]
 df = df.drop("speakername", axis=1)
 #print(f_df.head())
 
@@ -32,7 +32,8 @@ df = df.drop(df[df["speech_class"] != "Speech"].index)
 remove any rows where the text in the ‘speech’ column is less than 1000
 characters long.
 """
-final_df = df.drop(df[df["speech"].str.len() < 1000].index)
+final_df = df[df["speech"].str.len() >= 1000]
+# final_df = df.drop(df[df["speech"].str.len() < 1000].index)
 
 """
 Print the dimensions of the resulting dataframe using the shape method.
