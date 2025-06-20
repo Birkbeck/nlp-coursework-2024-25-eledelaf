@@ -20,7 +20,7 @@ four most common party names
 parties_4 = list(df['party'].value_counts()[:4].index)
 f_df = df[df['party'].isin(parties_4)]
 f_df = f_df.drop("speakername", axis=1)
-print(f_df.head())
+#print(f_df.head())
 
 """
 remove any rows where the value in the ‘speech_class’ column is not
@@ -37,6 +37,7 @@ final_df = f_df.drop(f_df[f_df["speech"].str.len() < 1000].index)
 """
 Print the dimensions of the resulting dataframe using the shape method.
 """
+print(final_df.head())
 print(final_df.shape)
 
 """
@@ -81,11 +82,15 @@ svm.fit(X_train, y_train)
 y_svm_predict = svm.predict(X_test)
 
 # Print the scikit-learn macro-average f1 score
-print(f1_score(y_test,y_rF_predict, average = 'macro'))
-print(f1_score(y_test,y_svm_predict, average = 'macro'))
+print(f" The F1 score for the random forest is:{f1_score(y_test,y_rF_predict, average = 'macro')}")
+print(f" The F1 score for the svm is:{f1_score(y_test,y_svm_predict, average = 'macro')}")
+
 
 # Classification report
-print(classification_report(y_test,y_rF_predict)) # Esto esta dando error 
+print("Classification report Random Forest")
+print(classification_report(y_test,y_rF_predict))  
+
+print("Classification report svm")
 print(classification_report(y_test,y_svm_predict))
 
 """
@@ -113,17 +118,7 @@ svm.fit(X_train, y_train)
 y_svm_predict = svm.predict(X_test)
 
 # Print the classification
-print(classification_report(y_test,y_rF_predict)) # Esto también esta dando error 
-print(classification_report(y_test,y_svm_predict))
 
-"""
-Implement a new custom tokenizer and pass it to the tokenizer argument of
-Tfidfvectorizer. You can use this function in any way you like to try to achieve
-the best classification performance while keeping the number of features to no
-more than 3000, and using the same three classifiers as above. Print the clas-
-sification report for the best performing classifier using your tokenizer. Marks
-will be awarded both for a high overall classification performance, and a good
-trade-off between classification performance and eﬀiciency (i.e., using fewer pa-
-rameters).
-"""
-# Implement a new custom tokenizer and pass it to the tokenizer argument of Tfidfvectorizer.
+# print(classification_report(y_test,y_rF_predict)) 
+# print(classification_report(y_test,y_svm_predict))
+
