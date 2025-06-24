@@ -15,18 +15,14 @@ df = df.replace({"Labour (Co-op)": "Labour"})
 
 """
 remove any rows where the value of the ‘party’ column is not one of the
-four most common party names
-"""
-parties_4 = list(df['party'].value_counts()[:4].index)
-df = df[df['party'].isin(parties_4)]
-df = df.drop("speakername", axis=1)
-#print(f_df.head())
-
-"""
-remove any rows where the value in the ‘speech_class’ column is not
+four most common party names remove any rows where the value in the ‘speech_class’ column is not
 ‘Speech’.
 """
-df = df.drop(df[df["speech_class"] != "Speech"].index)
+# Esto hay que cabiarlo, borrar primero lo de Speaker y luego buscar los 4 parties más importantes
+df = df[df["party"]!= "Speaker"]
+parties_4 = list(df['party'].value_counts()[:4].index)
+df = df[df['party'].isin(parties_4)]
+print(df.head())
 
 """
 remove any rows where the text in the ‘speech’ column is less than 1000
