@@ -104,32 +104,6 @@ def flesch_kincaid(df):
  
 #print(flesch_kincaid(df))
 
-def fk_level(text, d):
-    """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
-    Requires a dictionary of syllables per word.
-
-    Args:
-        text (str): The text to analyze.
-        d (dict): A dictionary of syllables per word.
-
-    Returns:
-        float: The Flesch-Kincaid Grade Level of the text. (higher grade is more difficult)
-    """
-    pass
-
-def count_syl(word, d):
-    """Counts the number of syllables in a word given a dictionary of syllables per word.
-    if the word is not in the dictionary, syllables are estimated by counting vowel clusters
-
-    Args:
-        word (str): The word to count syllables for.
-        d (dict): A dictionary of syllables per word.
-
-    Returns:
-        int: The number of syllables in the word.
-    """
-    pass
-
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """
     Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
@@ -177,7 +151,7 @@ df = parse(df)
 def most_common_objects(df):
     """
     The title of each novel and a list of the ten most common syntactic objects
-    overall in the text.
+    overall in the text. (No esta acabada)
     """
     d = {}
     titles = list(df["title"])
@@ -188,10 +162,6 @@ def most_common_objects(df):
     pass
 
 most_common_objects(df)
-
-def nltk_ttr(text):
-    """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
-    pass
 
 def get_ttrs(df):
     """helper function to add ttr to a dataframe"""
