@@ -174,13 +174,6 @@ def get_ttrs(df):
         results[row["title"]] = nltk_ttr(row["text"])
     return results
 
-def get_fks(df):
-    """helper function to add fk scores to a dataframe"""
-    results = {}
-    cmudict = nltk.corpus.cmudict.dict()
-    for i, row in df.iterrows():
-        results[row["title"]] = round(fk_level(row["text"], cmudict), 4)
-    return results
 
 def subjects_by_verb_pmi(doc, target_verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
