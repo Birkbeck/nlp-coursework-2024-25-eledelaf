@@ -183,3 +183,5 @@ print(class_rf_3)
 print("Classification report svm custom tokenizer")
 class_svm_3 = classification_report(y_test,y_svm_predict_cust)
 print(class_svm_3)
+
+# Print the classification report for the best performing classifier using your tokenizer.
