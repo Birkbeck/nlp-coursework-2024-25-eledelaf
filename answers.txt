@@ -9,5 +9,5 @@ But it could fail:
 Explain your tokenizer function and discuss it performance.
 Answer:
     In my tokenazer we skip the punctuations, stopword and numbers, after that we do a lemmatization of the text.
-    So far, the first thig i notice is that it takes a long time to run.
-    Poner aqui una comparacion con los otros Tokens usados en el codigo !!!!!! (Por acabar)
+    So far, the first thig i notice is that it takes a long time to run. 
+    Also looking into the classification, we can see that my tokenizer does not performn better than other two used before in the code.
