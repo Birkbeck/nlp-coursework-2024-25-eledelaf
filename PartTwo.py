@@ -67,7 +67,7 @@ classification report for each classifier on the test set. The label that you ar
 trying to predict is the ‘party’ value.
 """
 # Train RandomForest (with n_estimators=300)
-r_Forest = RandomForestClassifier(n_estimators=300)
+r_Forest = RandomForestClassifier(n_estimators=300, class_weight='balanced')
 r_Forest.fit(X_train, y_train)
 y_rF_predict = r_Forest.predict(X_test)
 
@@ -79,7 +79,6 @@ y_svm_predict = svm.predict(X_test)
 # Print the scikit-learn macro-average f1 score
 print(f" The F1 score for the random forest is:{f1_score(y_test,y_rF_predict, average = 'macro')}")
 print(f" The F1 score for the svm is:{f1_score(y_test,y_svm_predict, average = 'macro')}")
-
 
 # Classification report
 print("Classification report Random Forest")
@@ -116,4 +115,3 @@ y_svm_predict = svm.predict(X_test)
 
 # print(classification_report(y_test,y_rF_predict)) 
 # print(classification_report(y_test,y_svm_predict))
-
