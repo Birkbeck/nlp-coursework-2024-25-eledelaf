@@ -148,6 +148,29 @@ You can use this function in any way you like to try to achieve
 the best classification performance while keeping the number of features to no
 more than 3000, and using the same three classifiers as above. 
 """
+vectorizer =  TfidfVectorizer(tokenizer = custom_tokenizer, max_features = 3000)
+X = vectorizer.fit_transform(final_df["speech"])
+y = final_df["party"]
+
+# Print the classification report as in 2(c) again using these parameters.
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=26, stratify=y)
+# Train RandomForest (with n_estimators=300)
+r_Forest = RandomForestClassifier(n_estimators=300, class_weight='balanced')
+r_Forest.fit(X_train, y_train)
+y_rF_predict = r_Forest.predict(X_test)
+
+# Train the SVM with linear kernel classifiers
+svm = SVC(kernel= 'linear')
+svm.fit(X_train, y_train)
+y_svm_predict = svm.predict(X_test)
+
+# Print the classification
+print("Classification report Random Forest(3)")
+# Aqui hay un error
+print(classification_report(y_test,y_rF_predict))  
+
+print("Classification report svm(3)")
+print(classification_report(y_test,y_svm_predict))
 
 """
 Print the classification report for the best performing classifier using your tokenizer. Marks
