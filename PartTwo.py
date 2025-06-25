@@ -120,4 +120,38 @@ print("Classification report svm(2)")
 print(classification_report(y_test,y_svm_predict))
 
 """
+Implement a new custom tokenizer and pass it to the tokenizer argument of
+Tfidfvectorizer. 
+"""
+import spacy 
+nlp = spacy.load("en_core_web_sm")
+
+def custom_tokenizer(text):
+    doc = nlp(text)
+    tokens = []
+    for token in doc:
+        # We skip the stopword, punctuation, or numbers
+        if token.is_stop:
+            continue
+        if token.is_punct:
+            continue
+        if token.like_num:
+            continue
+
+        # We make a lemmatization 
+        new_token = token.lemma_
+        tokens.append(new_token.lower().strip())
+    return tokens
+ 
+"""
+You can use this function in any way you like to try to achieve
+the best classification performance while keeping the number of features to no
+more than 3000, and using the same three classifiers as above. 
+"""
+
+"""
+Print the classification report for the best performing classifier using your tokenizer. Marks
+will be awarded both for a high overall classification performance, and a good
+trade-off between classification performance and eﬀiciency (i.e., using fewer pa-
+rameters).
 """
