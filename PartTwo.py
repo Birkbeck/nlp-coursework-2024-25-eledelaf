@@ -102,7 +102,7 @@ y = final_df["party"]
 # Print the classification report as in 2(c) again using these parameters.
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=26, stratify=y)
 # Train RandomForest (with n_estimators=300)
-r_Forest = RandomForestClassifier(n_estimators=300)
+r_Forest = RandomForestClassifier(n_estimators=300, class_weight='balanced')
 r_Forest.fit(X_train, y_train)
 y_rF_predict = r_Forest.predict(X_test)
 
@@ -112,6 +112,12 @@ svm.fit(X_train, y_train)
 y_svm_predict = svm.predict(X_test)
 
 # Print the classification
+print("Classification report Random Forest(2)")
+# Aqui hay un error
+print(classification_report(y_test,y_rF_predict))  
 
-# print(classification_report(y_test,y_rF_predict)) 
-# print(classification_report(y_test,y_svm_predict))
+print("Classification report svm(2)")
+print(classification_report(y_test,y_svm_predict))
+
+"""
+"""
