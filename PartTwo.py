@@ -82,10 +82,12 @@ print(f" The F1 score for the svm is:{f1_score(y_test,y_svm_predict, average = '
 
 # Classification report
 print("Classification report Random Forest")
-print(classification_report(y_test,y_rF_predict))  
+class_rf_1 = classification_report(y_test,y_rF_predict)
+print(class_rf_1)  
 
 print("Classification report svm")
-print(classification_report(y_test,y_svm_predict))
+class_svm_1 = classification_report(y_test,y_svm_predict)
+print(class_svm_1)
 
 """
 Adjust the parameters of the Tfidfvectorizer so that unigrams, 
@@ -114,10 +116,12 @@ y_svm_predict = svm.predict(X_test)
 # Print the classification
 print("Classification report Random Forest(2)")
 # Aqui hay un error
-print(classification_report(y_test,y_rF_predict))  
+class_rf_2 = classification_report(y_test,y_rF_predict)
+print(class_rf_2)  
 
 print("Classification report svm(2)")
-print(classification_report(y_test,y_svm_predict))
+class_svm_2 = classification_report(y_test,y_svm_predict)
+print(class_svm_2)
 
 """
 Implement a new custom tokenizer and pass it to the tokenizer argument of
@@ -149,32 +153,15 @@ the best classification performance while keeping the number of features to no
 more than 3000, and using the same three classifiers as above. 
 """
 vectorizer =  TfidfVectorizer(tokenizer = custom_tokenizer, max_features = 3000)
-X = vectorizer.fit_transform(final_df["speech"])
-y = final_df["party"]
+X_custom = vectorizer.fit_transform(final_df["speech"])
+y_custom = final_df["party"]
 
-# Print the classification report as in 2(c) again using these parameters.
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=26, stratify=y)
-# Train RandomForest (with n_estimators=300)
-r_Forest = RandomForestClassifier(n_estimators=300, class_weight='balanced')
-r_Forest.fit(X_train, y_train)
-y_rF_predict = r_Forest.predict(X_test)
+X_train_cust, X_test_cust, y_train_cust, y_test_cust = train_test_split(X_custom, y_custom, stratify=y_custom)
 
-# Train the SVM with linear kernel classifiers
-svm = SVC(kernel= 'linear')
-svm.fit(X_train, y_train)
-y_svm_predict = svm.predict(X_test)
+# Train the random Forest
+r_Forest_cust = RandomForestClassifier(n_estimators=300, class_weight='balanced')
+r_Forest_cust.fit(X_train_cust, y_train_cust)
+y_rF_predict_cust = r_Forest_cust.predict(X_test_cust)
 
-# Print the classification
-print("Classification report Random Forest(3)")
-# Aqui hay un error
-print(classification_report(y_test,y_rF_predict))  
-
-print("Classification report svm(3)")
-print(classification_report(y_test,y_svm_predict))
-
-"""
-Print the classification report for the best performing classifier using your tokenizer. Marks
-will be awarded both for a high overall classification performance, and a good
-trade-off between classification performance and eﬀiciency (i.e., using fewer pa-
-rameters).
-"""
+rf_f1 = f1_score(y_test_cust, y_rF_predict_cust, average='macro')
+print(f"F1 of the random forest trained with the custom tokenizer is {rf_f1}")
