@@ -146,7 +146,7 @@ def custom_tokenizer(text):
         new_token = token.lemma_
         tokens.append(new_token.lower().strip())
     return tokens
- 
+
 """
 You can use this function in any way you like to try to achieve
 the best classification performance while keeping the number of features to no
@@ -163,5 +163,23 @@ r_Forest_cust = RandomForestClassifier(n_estimators=300, class_weight='balanced'
 r_Forest_cust.fit(X_train_cust, y_train_cust)
 y_rF_predict_cust = r_Forest_cust.predict(X_test_cust)
 
+# Train svm 
+svm_cust = SVC(kernel= 'linear')
+svm_cust.fit(X_train, y_train)
+y_svm_predict_cust = svm_cust.predict(X_test)
+
+# F1 scores
 rf_f1 = f1_score(y_test_cust, y_rF_predict_cust, average='macro')
 print(f"F1 of the random forest trained with the custom tokenizer is {rf_f1}")
+
+svm_f1 = f1_score(y_test_cust, y_svm_predict_cust, average='macro')
+print(f"F1 of the svm trained with the custom tokenizer is {svm_f1}")
+
+# Classifications
+print("Classification report Random Forest custom tokenizer")
+class_rf_3 = classification_report(y_test,y_rF_predict_cust)
+print(class_rf_3)  
+
+print("Classification report svm custom tokenizer")
+class_svm_3 = classification_report(y_test,y_svm_predict_cust)
+print(class_svm_3)
