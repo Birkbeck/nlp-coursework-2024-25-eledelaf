@@ -5,7 +5,6 @@
 import spacy
 from pathlib import Path
 import pandas as pd
-
 import nltk
 from nltk.tokenize import word_tokenize
 import string
@@ -20,31 +19,37 @@ import pickle
 
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
+
+# Part a
 def read_novels(path=Path.cwd() / "novels"):
     """
     1. Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year
     2. sort the dataframe by the year column before returning it, resetting or ignoring the dataframe index.
     """
+    if not path.is_dir():
+        print("Error: Directory not found")
+
     data = [] # The list of dictionaries where i will put the data of each book, each novel will be a dict
     for novel in path.glob("*.txt"):
-        name = novel.name # This a str looking like this: Sense_and_Sensibility-Austen-1811.txt
-        # From here we have to take the year, title and author
-        [title, author, year] = name.split("-")
+        name = novel.name # Sense_and_Sensibility-Austen-1811.txt
+        title, author, year = name.split("-")
         year = int(year[:4])
+
         # Open the txt
         with open(novel, encoding = "utf-8") as f:
             text = f.read()
+
         dic = {"text": text, "author": author, "title": title, "year": year}
         data.append(dic)
+
     # Once we have the list of dict, we have to create the data frame
     df = pd.DataFrame.from_records(data)
     df = df.sort_values("year")
     df = df.reset_index()
     return df
-df = read_novels(path=Path.cwd() / "novels")
-# print(df)
 
+# Part b
 def nltk_ttr(text):
     """
     Calculates the type-token ratio of a text. 
@@ -56,8 +61,7 @@ def nltk_ttr(text):
     types = set(tokens)
     return len(types) / len(tokens) if tokens else 0
 
-# print(nltk_ttr(df.loc[0, "text"]))
-
+# Part c
 def flesch_kincaid(df):
     """
     This function should return a dictionary mapping the title of
@@ -70,6 +74,7 @@ def flesch_kincaid(df):
     for title in titles:
         text = df[df["title"]== title]["text"].values[0]
         text = text.lower()
+
         # Number of words
         tokens = nltk.word_tokenize(text) 
         tokens = [t for t in tokens if t.isalpha()] # Take only the alfabetical tokens 
@@ -101,9 +106,20 @@ def flesch_kincaid(df):
 
         d[title] = FKGL # Add to the dictionary
     return d
- 
-#print(flesch_kincaid(df))
 
+def get_ttrs(df):
+    """helper function to add ttr to a dataframe"""
+    results = {}
+    results[row["title"]] = round(fk_level(row["text"], cmudict), 4)
+    return results
+
+def fk_level(text, d):
+    """Returns the Flesch-Kincaid Grade Level of a text (higher grade is more difficult).
+    Requires a dictionary of syllables per word.
+    """
+    pass
+
+# Part e
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """
     Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
@@ -111,6 +127,7 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """
     PATH = Path("/Users/elenadelafuente/Desktop/MASTER/2 trimestre"
                 "/Natural Lenguage Processing/parsed_novels.pkl")
+    
     if PATH.exists():
         """
         iv. Load the dataframe from the pickle file and use it for the remainder of this
@@ -145,9 +162,9 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
         iii. Return the dataframe.
         """
         return df
-    
-df = parse(df)
 
+# Part f
+# Part f.i 
 def most_common_objects(df):
     """
     The title of each novel and a list of the ten most common syntactic objects
@@ -162,35 +179,12 @@ def most_common_objects(df):
             print(type(token))
         d[title] = token
     print(d)
-    pass
-
-print(most_common_objects)
-
-
-def get_ttrs(df):
-    """helper function to add ttr to a dataframe"""
-    results = {}
-    for i, row in df.iterrows():
-        results[row["title"]] = nltk_ttr(row["text"])
-    return results
-
-
-def subjects_by_verb_pmi(doc, target_verb):
-    """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
-
-def subjects_by_verb_count(doc, verb):
-    """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
-
-def adjective_counts(doc):
-    """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    pass
+    pass 
 
 if __name__ == "__main__":
     """
     uncomment the following lines to run the functions once you have completed them
-    
+    """
     path = Path.cwd() / "p1-texts" / "novels"
     print(path)
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
@@ -199,10 +193,10 @@ if __name__ == "__main__":
     parse(df)
     print(df.head())
     print(get_ttrs(df))
-    print(get_fks(df))
+    #print(get_fks(df))
     df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    print(adjective_counts(df))
-     
+    #print(adjective_counts(df))
+    """
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
@@ -213,4 +207,3 @@ if __name__ == "__main__":
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
     """
-
