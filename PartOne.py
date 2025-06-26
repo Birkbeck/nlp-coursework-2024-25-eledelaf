@@ -10,6 +10,7 @@ from nltk.tokenize import word_tokenize
 import string
 from nltk.corpus import cmudict
 import pickle 
+from collections import Counter
 
 #nltk.download('cmudict')
 #nltk.download("punkt")
@@ -183,6 +184,21 @@ def most_common_objects(df):
     print(d)
     pass 
 
+def adjective_counts(df, n = 5):
+    """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
+    d = {}
+    adjectives = []
+    for index, row in df.iterrows():
+        doc = row["parse"]
+        for token in doc:
+            if token.pos_ == "ADJ":
+                adjectives.append(token.text.lower() )
+        top_adj = Counter(adjectives).most_common(n)
+
+        d[row["title"]] = top_adj
+    return d
+
+
 if __name__ == "__main__":
     
     #uncomment the following lines to run the functions once you have completed them
@@ -194,10 +210,13 @@ if __name__ == "__main__":
     nltk.download("cmudict")
     df = parse(df)
     print(df.head())
-    print(get_ttrs(df))
+    print(flesch_kincaid(df))
+    #print(get_ttrs(df))
     #print(get_fks(df))
-    #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    #print(adjective_counts(df))
+    PATH = Path("/Users/elenadelafuente/Desktop/MASTER/2 trimestre"
+                "/Natural Lenguage Processing/parsed_novels.pkl")
+    df = pd.read_pickle(PATH)
+    print(adjective_counts(df))
     """
     for i, row in df.iterrows():
         print(row["title"])
