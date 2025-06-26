@@ -210,7 +210,7 @@ def subjects_by_verb_count(df, verb, n=5):
     d = Counter(subjects).most_common(n)                  
     return d
 
-def subjects_by_verb_pmi(doc, target_verb, n=5):
+def subjects_by_verb_pmi(df, verb, n=5):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
     subjects = []
     for token in df:
