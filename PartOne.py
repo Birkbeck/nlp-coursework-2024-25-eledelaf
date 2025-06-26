@@ -210,17 +210,6 @@ def subjects_by_verb_count(df, verb, n=5):
     d = Counter(subjects).most_common(n)                  
     return d
 
-def subjects_by_verb_pmi(df, verb, n=5):
-    """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    subjects = []
-    for token in df:
-        if token.pos_ == "VERB" and token.lemma_.lower() == verb.lower():
-            for child in token.children:
-                # token.children is a list of words in the sentence that are related to the token
-                if child.dep_ == "nsubj": # check if child is a subject 
-                        subjects.append(child.text.lower() )
-    d = Counter(subjects).most_common(n)                  
-    return d
 
 if __name__ == "__main__":
     
@@ -245,8 +234,9 @@ if __name__ == "__main__":
         print(row["title"])
         print(subjects_by_verb_count(row["parse"], "hear"))
         print("\n")
-    
+    """
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
+    """
