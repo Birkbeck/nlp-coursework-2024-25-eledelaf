@@ -4,38 +4,36 @@ Read the hansard40000.csv dataset in the texts directory into a dataframe.
 Sub-set and rename the dataframe as follows:
 """
 import pandas as pd
+import spacy 
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report
+
+nlp = spacy.load("en_core_web_sm")
 
 df = pd.read_csv("/Users/elenadelafuente/Desktop/MASTER/2 trimestre/Natural Lenguage Processing/Assesment/p2-texts/hansard40000.csv")
 
-"""
-Rename the ‘Labour (Co-op)’ value in ‘party’ column to ‘Labour’
-"""
+# Rename the ‘Labour (Co-op)’ value in ‘party’ column to ‘Labour’
 df = df.replace({"Labour (Co-op)": "Labour"})
 
-"""
-remove any rows where the value of the ‘party’ column is not one of the
-four most common party names, and remove the ‘Speaker’ value.
-"""
+# Remove the ‘Speaker’ value
 df = df[df["party"]!= "Speaker"]
+
+# Remove any rows where the value of the ‘party’ column is not one of the 4 most common 
 parties_4 = list(df['party'].value_counts()[:4].index)
 df = df[df['party'].isin(parties_4)]
 
-"""
-remove any rows where the value in the ‘speech_class’ column is not
-‘Speech’.
-"""
+# Remove any rows where the value in the ‘speech_class’ column is not ‘Speech’.
 df = df[df['speech_class'] == 'Speech']
 
-"""
-remove any rows where the text in the ‘speech’ column is less than 1000
-characters long.
-"""
+# Remove any rows where the text in the ‘speech’ column is less than 1000 characters long.
 final_df = df[df["speech"].str.len() >= 1000]
 
-"""
-Print the dimensions of the resulting dataframe using the shape method.
-"""
-
+# Print the dimensions of the resulting dataframe using the shape method.
 print('The shape of the final dataframes is: ', final_df.shape)
 
 """
@@ -45,13 +43,6 @@ parameters, except for omitting English stopwords and setting max_features to
 Split the data into a train and test set, using stratified sampling, with a
 random seed of 26.
 """
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.metrics import f1_score
-from sklearn.metrics import classification_report
-
 
 vectorizer = TfidfVectorizer(stop_words = "english", max_features = 3000)
 
@@ -127,8 +118,6 @@ print(class_svm_2)
 Implement a new custom tokenizer and pass it to the tokenizer argument of
 Tfidfvectorizer. 
 """
-import spacy 
-nlp = spacy.load("en_core_web_sm")
 
 def custom_tokenizer(text):
     doc = nlp(text)
