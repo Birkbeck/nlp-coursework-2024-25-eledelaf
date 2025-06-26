@@ -205,7 +205,7 @@ def subjects_by_verb_count(df, verb, n=5):
     for index, row in df.iterrows():
         doc = row["parse"]
         for token in doc:
-            if token.pos_ == "ADJ":
+            if token.pos_ == "VERB":
                 subjects.append(token.text.lower() )
         top_sub = Counter(subjects).most_common(n)
 
