@@ -198,6 +198,19 @@ def adjective_counts(df, n = 5):
         d[row["title"]] = top_adj
     return d
 
+def subjects_by_verb_count(df, verb, n=5):
+    """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
+    d = {}
+    subjects = []
+    for index, row in df.iterrows():
+        doc = row["parse"]
+        for token in doc:
+            if token.pos_ == "ADJ":
+                subjects.append(token.text.lower() )
+        top_sub = Counter(subjects).most_common(n)
+
+        d[row["title"]] = top_sub
+    return d
 
 if __name__ == "__main__":
     
@@ -217,12 +230,12 @@ if __name__ == "__main__":
                 "/Natural Lenguage Processing/parsed_novels.pkl")
     df = pd.read_pickle(PATH)
     print(adjective_counts(df))
-    """
+    
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
-
+    """
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
