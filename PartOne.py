@@ -201,15 +201,17 @@ def adjective_counts(df, n = 5):
 def subjects_by_verb_count(df, verb, n=5):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
     d = {}
-    subjects = []
     for index, row in df.iterrows():
         doc = row["parse"]
-        for token in doc:
-            if token.pos_ == "VERB":
-                subjects.append(token.text.lower() )
-        top_sub = Counter(subjects).most_common(n)
+        subjects = []
 
-        d[row["title"]] = top_sub
+        for token in doc:
+            if token.pos_ == "VERB" and token.lemma_.lower() == verb.lower():
+                for child in token.children:
+                    # token.children is a list of words in the sentence that are related to the token
+                    if child.dep_ == "nsubj": # check if child is a subject 
+                        subjects.append(child.text.lower() )
+        d[row["title"]] = subjects
     return d
 
 if __name__ == "__main__":
