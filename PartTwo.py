@@ -43,7 +43,6 @@ parameters, except for omitting English stopwords and setting max_features to
 Split the data into a train and test set, using stratified sampling, with a
 random seed of 26.
 """
-
 vectorizer = TfidfVectorizer(stop_words = "english", max_features = 3000)
 
 X = vectorizer.fit_transform(final_df["speech"])
